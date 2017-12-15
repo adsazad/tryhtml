@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="610.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="htmllearner.FXMLDocumentController">
+   <children>
+      <TextArea fx:id="Textarea" layoutY="29.0" prefHeight="536.0" prefWidth="321.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="29.0">
+         <font>
+            <Font name="Monospaced Regular" size="13.0" />
+         </font>
+         <contextMenu>
+            <ContextMenu fx:id="context">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#CopyAction" text="Copy">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#PasteAction" text="Paste">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <Menu mnemonicParsing="false" text="Insert Code">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#InsertJquery" text="Insert Jquery" />
+                        <MenuItem mnemonicParsing="false" onAction="#InsertBootStrap3" text="Insert BootStrap 3" />
+                        <MenuItem mnemonicParsing="false" onAction="#InsertBootStrap4" text="Insert BootStrap 4" />
+                    </items>
+                  </Menu>
+              </items>
+            </ContextMenu>
+         </contextMenu></TextArea>
+      <WebView fx:id="web" layoutX="335.0" layoutY="29.0" prefHeight="536.0" prefWidth="302.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0" />
+      <Button layoutX="238.0" layoutY="576.0" mnemonicParsing="false" onAction="#TryAction" text="Try" AnchorPane.bottomAnchor="8.0" />
+      <MenuBar prefHeight="29.0" prefWidth="675.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#SaveAction" text="Save">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#SaveAsAction" text="Save As">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#FullScreenAction" text="Full Screen">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator></MenuItem>
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Structers">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#MakeStructerAction" text="Simple Html" />
+                  <MenuItem mnemonicParsing="false" onAction="#MakeStructerJquery" text="Jquery" />
+                  <MenuItem mnemonicParsing="false" onAction="#MakeStructerJavaScript" text="JavaScript" />
+                  <MenuItem mnemonicParsing="false" onAction="#MakeStructerAjax" text="Ajax" />
+                  <MenuItem mnemonicParsing="false" onAction="#MakeStructerBootStrap3" text="BootStrap3" />
+                  <MenuItem mnemonicParsing="false" onAction="#MakeStructerBootStrap4" text="BootStrap4" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Get Links">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#GetJqueryLink" text="Jquery" />
+                  <MenuItem mnemonicParsing="false" onAction="#GetBootstrap3Link" text="BootStrap 3" />
+                  <MenuItem mnemonicParsing="false" onAction="#GetBootstrap4Link" text="BootStrap 4" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
