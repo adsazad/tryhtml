@@ -21,20 +21,12 @@ public class HTMLLearner extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("SetFile.fxml"));
         st = stage;
         Scene scene = new Scene(root);
-        stage.setMaximized(true);
-        stage.setTitle("Try HTML Alpha");
+        stage.setTitle("Try HTML");
         stage.setScene(scene);
         stage.show();
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public Stage getst() {
-        return st;
     }
 
     public static void main(String[] args) {

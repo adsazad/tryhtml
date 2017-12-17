@@ -55,6 +55,10 @@ public class FXMLDocumentController implements Initializable {
     String title;
     String html;
 
+    public void setPath(String Path) {
+        PathVar = Path;
+    }
+
     @FXML
     private void TryAction(ActionEvent event) {
         String HTML = Textarea.getText();
@@ -80,6 +84,7 @@ public class FXMLDocumentController implements Initializable {
             save();
         }
         Document doc = Jsoup.parse(HTML);
+
         FXMLLoader Loader = new FXMLLoader();
         Loader.setLocation(getClass().getResource("FullScreen.fxml"));
         try {
@@ -378,7 +383,6 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        saveas(st, Textarea.getText());
     }
 
     public void saveas(Stage st, String text) {
