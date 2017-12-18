@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,6 +22,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,6 +33,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
@@ -99,7 +103,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void TryAction(ActionEvent event) {
+    private void TryAction(ActionEvent event) throws IOException, URISyntaxException {
         String HTML = Textarea.getText();
         html = HTML;
         Document doc = Jsoup.parse(HTML);
@@ -112,6 +116,7 @@ public class FXMLDocumentController implements Initializable {
         } else {
             save();
         }
+
     }
 
     @FXML
@@ -408,6 +413,48 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
+    private void InsertBody(ActionEvent event) {
+        String Code = "<body>\n"
+                + " \n"
+                + "</body>";
+        StringSelection stringSelection = new StringSelection(Code);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clpbrd.setContents(stringSelection, null);
+        Textarea.paste();
+    }
+
+    @FXML
+    private void InsertHTML(ActionEvent event) {
+        String Code = "<html>\n"
+                + "\n"
+                + "</html>";
+        StringSelection stringSelection = new StringSelection(Code);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clpbrd.setContents(stringSelection, null);
+        Textarea.paste();
+    }
+
+    @FXML
+    private void InsertHead(ActionEvent event) {
+        String Code = "<head>\n"
+                + "\n"
+                + "</head>";
+        StringSelection stringSelection = new StringSelection(Code);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clpbrd.setContents(stringSelection, null);
+        Textarea.paste();
+    }
+
+    @FXML
+    private void InsertTitle(ActionEvent event) {
+        String Code = "<title>  </title>";
+        StringSelection stringSelection = new StringSelection(Code);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clpbrd.setContents(stringSelection, null);
+        Textarea.paste();
+    }
+
+    @FXML
     private void CopyAction(ActionEvent event) {
         String text = Textarea.getSelectedText();
         StringSelection stringSelection = new StringSelection(text);
@@ -422,6 +469,25 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ap.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.F5) {
+                    String HTML = Textarea.getText();
+                    html = HTML;
+                    Document doc = Jsoup.parse(HTML);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    title = doc.title();
+                    stage.setTitle(title);
+                    web.getEngine().loadContent(HTML);
+                    if (PathVar == "") {
+                        saveas(st, HTML);
+                    } else {
+                        save();
+                    }
+                }
+            }
+        });
     }
 
     public void saveas(Stage st, String text) {

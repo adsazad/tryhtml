@@ -16,22 +16,21 @@ import javafx.stage.Stage;
  * @author arashdeep
  */
 public class HTMLLearner extends Application {
-    
+
     Stage st;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("SetFile.fxml"));
         st = stage;
         Scene scene = new Scene(root);
         stage.setTitle("Try HTML");
-        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
-    
+
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

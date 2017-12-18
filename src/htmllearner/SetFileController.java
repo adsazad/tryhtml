@@ -189,9 +189,8 @@ public class SetFileController implements Initializable {
                         Parent logparent = Loader.getRoot();
                         Scene scene = new Scene(logparent);
                         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        app_stage.setMaximized(true);
                         app_stage.setTitle("Try Html");
-                        app_stage.setResizable(true);
+                        app_stage.setMaximized(true);
                         app_stage.setScene(scene);
                         app_stage.show();
                         FXMLDocumentController ToMain = Loader.getController();

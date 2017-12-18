@@ -35,6 +35,10 @@
                       <MenuItem mnemonicParsing="false" onAction="#InsertJquery" text="Insert Jquery" />
                         <MenuItem mnemonicParsing="false" onAction="#InsertBootStrap3" text="Insert BootStrap 3" />
                         <MenuItem mnemonicParsing="false" onAction="#InsertBootStrap4" text="Insert BootStrap 4" />
+                        <MenuItem mnemonicParsing="false" onAction="#InsertBody" text="Insert Body" />
+                        <MenuItem mnemonicParsing="false" onAction="#InsertHTML" text="Insert HTML" />
+                        <MenuItem mnemonicParsing="false" onAction="#InsertHead" text="Insert Head" />
+                        <MenuItem mnemonicParsing="false" onAction="#InsertTitle" text="Insert Title" />
                     </items>
                   </Menu>
               </items>
