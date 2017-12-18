@@ -8,11 +8,15 @@ package htmllearner;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +36,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -57,6 +64,38 @@ public class FXMLDocumentController implements Initializable {
 
     public void setPath(String Path) {
         PathVar = Path;
+        try {
+            String json = null;
+            try {
+                try (BufferedReader br = new BufferedReader(new FileReader(".Recents"))) {
+                    StringBuilder sb = new StringBuilder();
+                    String line = br.readLine();
+
+                    while (line != null) {
+                        sb.append(line);
+                        sb.append("\n");
+                        line = br.readLine();
+                    }
+                    json = sb.toString();
+                }
+            } catch (IOException ioe) {
+            }
+            JSONObject MainObj = new JSONObject(json);
+            JSONArray PathObj = MainObj.getJSONArray("Paths");
+            MainObj.append("Paths", PathVar);
+            try {
+                Files.write(Paths.get(".Recents"), MainObj.toString().getBytes());
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (JSONException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void FileOpen(String Text, String Path) {
+        PathVar = Path;
+        Textarea.setText(Text);
     }
 
     @FXML
