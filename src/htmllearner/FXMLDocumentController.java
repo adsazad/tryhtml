@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -85,7 +86,21 @@ public class FXMLDocumentController implements Initializable {
             } catch (IOException ioe) {
             }
             JSONObject MainObj = new JSONObject(json);
+            if (!json.contains("\"Paths\"")) {
+                String SyntaxJSON = "{\"Paths\":[]}";
+                try {
+                    Files.write(Paths.get(".Recents"), SyntaxJSON.getBytes());
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Some Thing Went Wrong Please Close Program And Try Again");
+                    alert.showAndWait();
+                    Platform.exit();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             JSONArray PathObj = MainObj.getJSONArray("Paths");
+
             MainObj.append("Paths", PathVar);
             try {
                 Files.write(Paths.get(".Recents"), MainObj.toString().getBytes());
@@ -100,6 +115,47 @@ public class FXMLDocumentController implements Initializable {
     public void FileOpen(String Text, String Path) {
         PathVar = Path;
         Textarea.setText(Text);
+        try {
+            String json = null;
+            try {
+                try (BufferedReader br = new BufferedReader(new FileReader(".Recents"))) {
+                    StringBuilder sb = new StringBuilder();
+                    String line = br.readLine();
+
+                    while (line != null) {
+                        sb.append(line);
+                        sb.append("\n");
+                        line = br.readLine();
+                    }
+                    json = sb.toString();
+                }
+            } catch (IOException ioe) {
+            }
+            JSONObject MainObj = new JSONObject(json);
+            if (!json.contains("Paths")) {
+                String SyntaxJSON = "{\"Paths\":[]}";
+                try {
+                    Files.write(Paths.get(".Recents"), SyntaxJSON.getBytes());
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Some Thing Went Wrong Please Close Program And Try Again");
+                    alert.showAndWait();
+                    Platform.exit();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            JSONArray PathObj = MainObj.getJSONArray("Paths");
+
+            MainObj.append("Paths", PathVar);
+            try {
+                Files.write(Paths.get(".Recents"), MainObj.toString().getBytes());
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (JSONException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML

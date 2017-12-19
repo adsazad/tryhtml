@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -172,6 +173,19 @@ public class SetFileController implements Initializable {
             } catch (IOException ioe) {
             }
             JSONObject MainObj = new JSONObject(json);
+            if (!json.contains("\"Paths\"")) {
+                String SyntaxJSON = "{\"Paths\":[]}";
+                try {
+                    Files.write(Paths.get(".Recents"), SyntaxJSON.getBytes());
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Some Thing Went Wrong Please Close Program And Try Again");
+                    alert.showAndWait();
+                    Platform.exit();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             JSONArray PathObj = MainObj.getJSONArray("Paths");
             JSONObject NewMain = new JSONObject("{Paths:[]}");
             for (int i = 0; i < PathObj.length(); i++) {
