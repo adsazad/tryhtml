@@ -14,6 +14,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -171,8 +173,17 @@ public class SetFileController implements Initializable {
             }
             JSONObject MainObj = new JSONObject(json);
             JSONArray PathObj = MainObj.getJSONArray("Paths");
+            JSONObject NewMain = new JSONObject("{Paths:[]}");
             for (int i = 0; i < PathObj.length(); i++) {
-                RecentTable.getItems().add(new RecentBin(PathObj.getString(i)));
+                String FilePath = PathObj.getString(i);
+                File FileCh = new File(FilePath);
+                if (FileCh.exists()) {
+                    RecentTable.getItems().add(new RecentBin(FilePath));
+                    NewMain.append("Paths", FilePath);
+                } else {
+
+                }
+                Files.write(Paths.get(".Recents"), NewMain.toString().getBytes());
             }
             RecentTable.setOnMouseReleased(new EventHandler<MouseEvent>() {
                 @Override
@@ -204,6 +215,8 @@ public class SetFileController implements Initializable {
             });
             PathColumn.setCellValueFactory(new PropertyValueFactory<>("Path"));
         } catch (JSONException ex) {
+            Logger.getLogger(SetFileController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(SetFileController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
