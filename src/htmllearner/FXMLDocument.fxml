@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="610.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="htmllearner.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="610.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="htmllearner.FXMLDocumentController">
    <children>
       <TextArea fx:id="Textarea" layoutY="29.0" prefHeight="536.0" prefWidth="321.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="29.0">
          <font>
@@ -85,5 +85,6 @@
             </Menu>
         </menus>
       </MenuBar>
+      <Button layoutX="586.0" layoutY="574.0" mnemonicParsing="false" onAction="#HtmlEditorAction" text="HTML Editor" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>
