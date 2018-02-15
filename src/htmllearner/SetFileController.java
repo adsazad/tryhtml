@@ -39,6 +39,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,10 +67,12 @@ public class SetFileController implements Initializable {
     TableColumn<RecentBin, String> PathColumn;
     String PathVar = "";
     Stage st = new Stage();
+    SavingBin SavingBin = new SavingBin(PathVar);
 
     @FXML
     private void BrowseAction(ActionEvent event) {
-        saveas(st, "");
+        SavingBin.saveas(st, "");
+        PathVar = SavingBin.GetNewPathVar();
         PathArea.setText(PathVar);
     }
 
@@ -95,33 +98,6 @@ public class SetFileController implements Initializable {
             app_stage.show();
             FXMLDocumentController ToMain = Loader.getController();
             ToMain.setPath(PathVar);
-        }
-    }
-
-    public void saveas(Stage st, String text) {
-        FileWriter fw = null;
-        try {
-            FileChooser filechooser = new FileChooser();
-            filechooser.setInitialDirectory(new File(System.getProperty("user.home")));
-            File file = filechooser.showSaveDialog(st);
-            fw = new FileWriter(file);
-            PathVar = file.getPath();
-            BufferedWriter Writer = new BufferedWriter(fw);
-            Writer.write(text);
-            Writer.flush();
-            Writer.close();
-
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fw.close();
-
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class
-                        .getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
@@ -218,11 +194,7 @@ public class SetFileController implements Initializable {
                         app_stage.setScene(scene);
                         app_stage.show();
                         FXMLDocumentController ToMain = Loader.getController();
-                        try {
-                            ToMain.FileOpen(open(PathVar), PathVar);
-                        } catch (IOException ex) {
-                            Logger.getLogger(SetFileController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                            ToMain.FileOpen(SavingBin.open(PathVar), PathVar);
                     }
                 }
             });
@@ -236,8 +208,11 @@ public class SetFileController implements Initializable {
 
     @FXML
     private void OpenAction(ActionEvent event) {
-        try {
-            String Text = open(st);
+            FileChooser filechooser = new FileChooser();
+            File file = filechooser.showOpenDialog(st);
+            String FilePath = file.getPath();
+            String Text = SavingBin.open(FilePath);
+            PathVar = SavingBin.GetNewPathVar();
             FXMLLoader Loader = new FXMLLoader();
             Loader.setLocation(getClass().getResource("FXMLDocument.fxml"));
             try {
@@ -255,56 +230,12 @@ public class SetFileController implements Initializable {
             app_stage.show();
             FXMLDocumentController OpenedFile = Loader.getController();
             OpenedFile.FileOpen(Text, PathVar);
-        } catch (IOException ex) {
-            Logger.getLogger(SetFileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
-
-    public String open(Stage st) throws IOException {
-        String txt = null;
-        String text = null;
-        FileInputStream fw = null;
-        FileChooser filechooser = new FileChooser();
-        File file = filechooser.showOpenDialog(st);
-        PathVar = file.getPath();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        StringBuffer stringBuffer = new StringBuffer();
-        String line = null;
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuffer.append(line).append("\n");
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(SetFileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        txt = stringBuffer.toString();
-
-        return txt;
-    }
-
-    public String open(String Path) throws IOException {
-        String txt = null;
-        String text = null;
-        File file = new File(Path);
-        PathVar = file.getPath();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        StringBuffer stringBuffer = new StringBuffer();
-        String line = null;
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuffer.append(line).append("\n");
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(SetFileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        txt = stringBuffer.toString();
-        return txt;
-    }
-
     public void MakeAlertErr() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Path Not Given");
-        alert.setContentText("Please Give Path Of The File To Create");
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText("Please Select File");
         alert.showAndWait();
     }
+
 }
