@@ -10,26 +10,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="439.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="htmllearner.SetFileController">
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="514.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="htmllearner.SetFileController">
    <children>
-      <TextField fx:id="PathArea" layoutX="40.0" layoutY="121.0" prefHeight="26.0" prefWidth="378.0" promptText="Path" />
-      <Button layoutX="449.0" layoutY="101.0" mnemonicParsing="false" onAction="#BrowseAction" text="New" />
+      <TextField fx:id="PathArea" layoutX="46.0" layoutY="209.0" prefHeight="26.0" prefWidth="378.0" promptText="Path" />
+      <Button layoutX="449.0" layoutY="196.0" mnemonicParsing="false" onAction="#BrowseAction" text="New" />
       <Label layoutX="148.0" layoutY="37.0" prefHeight="49.0" prefWidth="145.0" text="TryHTML">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Button layoutX="238.0" layoutY="175.0" mnemonicParsing="false" onAction="#SubmitAction" text="Submit" />
+      <Button layoutX="235.0" layoutY="244.0" mnemonicParsing="false" onAction="#SubmitAction" text="Submit" />
       <ImageView fitHeight="94.0" fitWidth="104.0" layoutX="53.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@tryhtml128.png" />
          </image>
       </ImageView>
-      <Button layoutX="442.0" layoutY="134.0" mnemonicParsing="false" onAction="#OpenAction" text="Open " />
-      <TableView fx:id="RecentTable" layoutX="-7.0" layoutY="208.0" prefHeight="231.0" prefWidth="606.0">
+      <Button layoutX="444.0" layoutY="231.0" mnemonicParsing="false" onAction="#OpenAction" text="Open " />
+      <TableView fx:id="RecentTable" layoutX="-10.0" layoutY="283.0" prefHeight="231.0" prefWidth="606.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <columns>
           <TableColumn fx:id="PathColumn" prefWidth="605.0" text="Path" />
         </columns>
       </TableView>
+      <TextField fx:id="AuthorField" layoutX="46.0" layoutY="126.0" promptText="Author" />
+      <TextField fx:id="TitleField" layoutX="46.0" layoutY="170.0" promptText="Title" />
    </children>
 </AnchorPane>

@@ -41,13 +41,17 @@ public class HTMLEditorController implements Initializable {
     SavingBin savingBin;
     String HTML;
     String PathVar;
+    String Author;
+    String Title;
 
-    public void SetInit(String Path) {
+    public void SetInit(String Path, String Author, String Title) {
         savingBin = new SavingBin(Path);
         HTML = savingBin.open(Path);
         HtmlEditor.setHtmlText(HTML);
         PathVar = Path;
         System.out.println(HTML);
+        this.Author = Author;
+        this.Title = Title;
     }
 
     @FXML
@@ -67,7 +71,7 @@ public class HTMLEditorController implements Initializable {
         app_stage.setScene(scene);
         app_stage.show();
         FXMLDocumentController ToMain = Loader.getController();
-        ToMain.FileOpen(HTML, PathVar);
+        ToMain.FileOpen(HTML, PathVar, Author, Title);
     }
 
     @Override

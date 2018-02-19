@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -63,13 +64,21 @@ public class FXMLDocumentController implements Initializable {
     String html;
     GetLinks GetLink = new GetLinks();
     MakeStructer MakeStruct = new MakeStructer();
+    File OrgPath;
+    String FileName;
+    String Author;
+    String Title;
 
     public void setPathVar(String PathVar) {
         this.PathVar = PathVar;
+        OrgPath = new File(PathVar);
+        FileName = OrgPath.getName();
     }
 
-    public void setPath(String Path) {
+    public void setPath(String Path, String Author, String Title) {
         PathVar = Path;
+        OrgPath = new File(PathVar);
+        FileName = OrgPath.getName();
         try {
             String json = null;
             try {
@@ -101,8 +110,9 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
             JSONArray PathObj = MainObj.getJSONArray("Paths");
-
-            MainObj.append("Paths", PathVar);
+            JSONObject AuthoOBJ = new JSONObject().put("Author", Author.toString());
+            AuthoOBJ.put("Title", Title.toString());
+            MainObj.append("Paths", new JSONObject().append(PathVar, AuthoOBJ));
             try {
                 Files.write(Paths.get(".Recents"), MainObj.toString().getBytes());
             } catch (IOException ex) {
@@ -113,8 +123,10 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    public void FileOpen(String Text, String Path) {
+    public void FileOpen(String Text, String Path, String Author, String Title) {
         PathVar = Path;
+        OrgPath = new File(PathVar);
+        FileName = OrgPath.getName();
         System.out.println(Text);
         Textarea.setText(Text);
         try {
@@ -148,8 +160,9 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
             JSONArray PathObj = MainObj.getJSONArray("Paths");
-
-            MainObj.append("Paths", PathVar);
+            JSONObject AuthoOBJ = new JSONObject().put("Author", Author.toString());
+            AuthoOBJ.put("Title", Title.toString());
+            MainObj.append("Paths", new JSONObject().append(PathVar, AuthoOBJ));
             try {
                 Files.write(Paths.get(".Recents"), MainObj.toString().getBytes());
             } catch (IOException ex) {
@@ -173,6 +186,8 @@ public class FXMLDocumentController implements Initializable {
         if (PathVar == "") {
             SavingBin.saveas(st, HTML);
             PathVar = SavingBin.GetNewPathVar();
+            OrgPath = new File(PathVar);
+            FileName = OrgPath.getName();
         } else {
             SavingBin.save(HTML, PathVar);
         }
@@ -185,6 +200,8 @@ public class FXMLDocumentController implements Initializable {
         if (PathVar == "") {
             SavingBin.saveas(st, HTML);
             PathVar = SavingBin.GetNewPathVar();
+            OrgPath = new File(PathVar);
+            FileName = OrgPath.getName();
         } else {
             SavingBin.save(HTML, PathVar);
         }
@@ -213,6 +230,8 @@ public class FXMLDocumentController implements Initializable {
         if (PathVar == "") {
             SavingBin.saveas(st, Textarea.getText());
             PathVar = SavingBin.GetNewPathVar();
+            OrgPath = new File(PathVar);
+            FileName = OrgPath.getName();
         } else {
             SavingBin.save(Textarea.getText(), PathVar);
             System.out.println(PathVar);
@@ -223,8 +242,8 @@ public class FXMLDocumentController implements Initializable {
     private void SaveAsAction(ActionEvent event) {
         SavingBin.saveas(st, Textarea.getText());
         PathVar = SavingBin.GetNewPathVar();
-        System.out.println(PathVar);
-
+        OrgPath = new File(PathVar);
+        FileName = OrgPath.getName();
     }
 
     @FXML
@@ -244,7 +263,7 @@ public class FXMLDocumentController implements Initializable {
         app_stage.setScene(scene);
         app_stage.show();
         HTMLEditorController ToEditor = Loader.getController();
-        ToEditor.SetInit(PathVar);
+        ToEditor.SetInit(PathVar, Author, Title);
     }
 
     @Override
@@ -263,6 +282,8 @@ public class FXMLDocumentController implements Initializable {
                     if (PathVar == "") {
                         SavingBin.saveas(st, HTML);
                         PathVar = SavingBin.GetNewPathVar();
+                        OrgPath = new File(PathVar);
+                        FileName = OrgPath.getName();
                     } else {
                         SavingBin.save(HTML, PathVar);
                     }
@@ -370,9 +391,8 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void InsertTitle(ActionEvent event) {
-        String Code = "<title>  </title>";
+        String Code = "<title>" + FileName + "</title>";
         GetLink.InseartLinks(Code, Textarea);
-
     }
 
     @FXML
